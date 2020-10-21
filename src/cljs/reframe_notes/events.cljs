@@ -14,9 +14,11 @@
  (fn-traced [db _]
             (let [notes (:notes db)
                   next-id (:next-id db)]
-              (assoc db :notes (conj notes {:id next-id
-                                            :title "Untitled"
-                                            :body ""})))))
+              (-> db (assoc :notes (conj notes {:id next-id
+                                                :title "Untitled"
+                                                :body ""}))
+                  (assoc :next-id (+ next-id 1))))))
+
 (re-frame/reg-event-db
  ::change-editing-note-id
  (fn-traced [db [_ new-editing-note-id]]
